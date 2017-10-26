@@ -1,0 +1,16 @@
+primes = [2, 3]
+x = 3
+while len(primes) != 10000: #change the 10000 to the first how many primes you want to find
+    p = True
+    x = x + 2
+    for y in primes:
+        if x % y == 0:
+            p = False
+            break
+    if p is True:
+        primes.append(x)
+        print(len(primes))
+
+n = len(primes) - 1
+print(primes)
+print(primes[n])
