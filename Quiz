@@ -1,0 +1,120 @@
+import random
+class Student:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+class Question:
+    def __init__(self, prompt, answer):
+        self.prompt = prompt
+        self.answer = answer
+
+def instantiate_qs(quiz, prompts, answers):
+    for p in range(len(prompts)):
+        quiz.append(Question(prompts[p], answers[p]))
+
+def test(quiz):
+    score = 0
+    for q in quiz:
+        print(q.prompt)
+        response = input('\nAnswer: ')
+        while response not in Valid:
+            response = input('Answer: ')
+            if response not in Valid:
+                print('That is not a valid answer')
+        if response.upper() == q.answer:
+            score += 1
+    print('You scored ' + str(score) + ' out of ' + str(len(quiz)) + '.')
+    return score
+
+def test_multiple(quiz):
+    participants = int(input('\nHow many are taking the quiz? '))
+    results = []
+    CurrentTop = 0
+    winner = ''
+    tie = []
+    for i in range(participants):
+        name = input('\nWhat is your name?')
+        score = test(quiz)
+        results.append(Student(name, score))
+    for i in results:
+        print('\n' + i.name + ' scored ' + str(i.score))
+    for i in results:
+        if i == results[0]:
+            winner = i
+            CurrentTop = i.score
+            finalR = 'win'
+        elif i.score > CurrentTop:
+            winner = i
+            CurrentTop = i.score
+            finalR = 'win'
+        elif i.score == CurrentTop and finalR == 'tie':
+            tie.append(i)
+            tie.append(winner)
+            finalR = 'tie'
+        elif i.score == CurrentTop and finalR == 'win':
+            tie = [winner, i]
+            finalR = 'tie'
+    if finalR == 'tie':
+        print("\nIt's a tie between:" )
+        for i in tie:
+            print(i.name)
+    if finalR == 'win':
+        print('\nthe winner is ' + winner.name)
+
+def menu():
+    print('What do you want to do?\n'
+          '1. Take the quiz alone\n'
+          '2. take the quiz with others')
+    rep = 0
+    while rep != 1 and rep != 2:
+        rep = int(input('\nresponse: '))
+    if rep == 1:
+        test(quiz)
+    if rep == 2:
+        test_multiple(quiz)
+
+prompts = [
+    '\n1. What is program generator? \n'
+    'A) A computer program that can be used to create other computer programs\n'
+    'B) A collection of precompiled routines or modules that a program can use\n'
+    'C) An AI that makes software that will eventually help overturn the human race\n'
+    'D) A cheating software for computer science\n',
+
+    '\n2. What is a program library?\n'
+    'A) A library with book guides about programming the hottest Flash games\n'
+    'B) A collection of precompiled routines or modules that a program can use\n'
+    'C) A computer program that can be used to create other computer programs\n'
+    'D) A library that will be built by our eventual robot overlords\n',
+
+    '\n3. What is integration testing?\n'
+    'A) Testing of software by a limited number of chosen users before general release\n'
+    'B) Testing of software in-house by dedicated testers\n'
+    'C) Testing of software by customers before sign-off\n'
+    'D) Individually tested modules are joined into one to test if they interact correctly with each other\n',
+
+    '\n4. What is Alpha testing?\n'
+    'A) Individually tested modules are joined into one to test if they interact correctly with each other\n'
+    'B) Test by the robot overlord on the human race to find the "alpha" male of a population\n'
+    'C) Testing of software in-house by dedicated testers\n'
+    'D) Testing of software by customers before sign-off\n',
+
+    '\n5. What is acceptance testing?\n'
+    'A) Tests by robots designed to find a suitable human pet before purchase\n'
+    'B) Testing of software by customers before sign-off\n'
+    'C) Testing of software in-house by dedicated testers\n'
+    'D) Testing of software by a limited number of chosen users before general release\n',
+
+    '\n6. What is Beta testing?\n'
+    'A) Testing of software by a limited number of chosen users before general release\n'
+    'B) Testing of software in-house by dedicated testers\n'
+    'C) Testing of software by customers before sign-off\n'
+    'D) Individually tested modules are joined into one to test if they interact correctly with each other\n'
+]
+
+answers = ['A', 'B', 'D', 'C', 'B', 'A']
+Valid = ['A', 'B', 'C', 'D', 'a', 'b', 'c', 'd']
+quiz = []
+
+instantiate_qs(quiz, prompts, answers)
+menu()
